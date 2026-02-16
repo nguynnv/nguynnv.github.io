@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ssh nguyn@portfolio</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #282a36;
+            color: #f8f8f2;
+            font-family: "Fira Code", monospace;
+            font-size: 16px;
+        }
+
+        .terminal {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .line {
+            margin: 4px 0;
+        }
+
+        .prompt {
+            color: #50fa7b;
+        }
+
+        .command {
+            color: #8be9fd;
+        }
+
+        .keyword {
+            color: #ff79c6;
+        }
+
+        .value {
+            color: #bd93f9;
+        }
+
+        .comment {
+            color: #6272a4;
+        }
+
+        a.fake-link {
+            color: #8be9fd;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        a.fake-link:hover {
+            color: #ff79c6;
+            text-decoration: underline;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            background: #f8f8f2;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50%,
+            100% {
+                opacity: 1;
+            }
+
+            25%,
+            75% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="terminal" id="terminal"></div>
+
+    <script>
+        const terminal = document.getElementById("terminal");
+        function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+        async function typeLine(html, speed = 15) {
+            const line = document.createElement("div");
+            line.classList.add("line");
+            terminal.appendChild(line);
+
+            const temp = document.createElement("div");
+            temp.innerHTML = html;
+
+            async function typeNode(node, parent) {
+                if (node.nodeType === 3) {
+                    for (let char of node.textContent) {
+                        parent.append(char);
+                        await sleep(speed);
+                    }
+                } else if (node.nodeType === 1) {
+                    const el = document.createElement(node.tagName);
+                    for (let attr of node.attributes) {
+                        el.setAttribute(attr.name, attr.value);
+                    }
+                    parent.appendChild(el);
+                    for (let child of node.childNodes) {
+                        await typeNode(child, el);
+                    }
+                }
+            }
+
+            for (let node of temp.childNodes) {
+                await typeNode(node, line);
+            }
+        }
+
+        function random(min, max) {
+            return (Math.random() * (max - min) + min).toFixed(2);
+        }
+
+        async function boot() {
+
+            await typeLine(`<span class="comment">Connecting to portfolio server...</span>`, 20);
+            await sleep(800);
+
+            await typeLine(`<span class="comment">Connection established.</span>`, 20);
+            await sleep(600);
+
+            await typeLine(`<span class="value">Welcome to Portfolio OS (GNU/Linux 6.2.0-36-generic x86_64)</span>`, 12);
+            await sleep(400);
+
+            await typeLine(`<span class="comment"> * System load:  ${random(0.01, 0.30)}</span>`, 12);
+
+            await typeLine(`<span class="comment"> * Memory usage:  ${Math.floor(Math.random() * 40 + 30)}%</span>`, 12);
+
+            await typeLine(`<span class="comment"> * Processes:  ${Math.floor(Math.random() * 80 + 120)}</span>`, 12);
+
+            await typeLine(`<span class="comment">Last login: ${new Date().toDateString()} from 192.168.1.${Math.floor(Math.random() * 255)}</span>`, 12);
+
+            await sleep(800);
+
+            await typeLine(`<span class="prompt">nguyn@portfolio:~$</span> <span class="command">curl nguynnv.gt.tc | sh</span>`, 15);
+
+            await sleep(600);
+
+            await typeLine(`<span class="keyword">Name:</span> <span class="value">Nguyn (@nguynnv)</span>`);
+            await typeLine(`<span class="keyword">About:</span> <a class="fake-link" onclick="openAbout()">about.txt</a>`);
+            await typeLine(`<span class="keyword">Role:</span> <span class="value">Backend / System Builder</span>`);
+            await typeLine(`<span class="keyword">Stack:</span> <span class="value">Go | Linux | JS</span>`);
+
+            await sleep(500);
+
+            await typeLine(`<span class="comment"># Socical</span>`);
+
+            await typeLine(`<span class="keyword">GitHub:</span> <a class="fake-link" onclick="openLink('https://github.com/nguynnv','github.com/nguynnv')">github.com/nguynnv</a>`);
+            await typeLine(`<span class="keyword">Telegram:</span> <a class="fake-link" onclick="openLink('https://t.me/nguynnv','t.me/nguynnv')">t.me/nguynnv</a>`);
+            // await typeLine(`<span class="prompt">nguyn@portfolio:~$</span> <span class="cursor"></span>`, 5);
+
+            await typeLine(`<span class="comment"># Projects</span>`);
+            await typeLine(`<span class="keyword">Project 1:</span> <a class="fake-link" onclick="openLink('https://github.com/yourusername/project1','project1')">project1</a>`);
+            await typeLine(`<span class="keyword">Project 2:</span> <a class="fake-link" onclick="openLink('https://github.com/yourusername/project2','project2')">project2</a>`);
+
+        }
+
+        async function openLink(url, name) {
+            await typeLine(`<span class="prompt">nguyn@portfolio:~$</span> <span class="command">open ${name}</span>`, 20);
+            await sleep(500);
+            window.open(url, "_blank");
+        }
+
+        async function openAbout() {
+            await typeLine(`<span class="prompt">nguyn@portfolio:~$</span> <span class="command">cat about.txt</span>`, 20);
+            await sleep(600);
+            await typeLine(`<a class="fake-link" onclick="openLink('https://noai.net','noai.net')">noai.net</a><span class="value">. All source code was written by me, no AI involved.</span>`);
+            await typeLine(`<span class="value"></span>`);
+        }
+
+        boot();
+    </script>
+</body>
+
+</html>

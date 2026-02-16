@@ -1,0 +1,27 @@
+/* old paper style */
+
+body {
+    background-color: #fdf6e3;
+    font-family: 'Georgia', serif;
+    color: #333;
+    margin: 40px;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    color: #b58900;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+a {
+    color: #268bd2;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
